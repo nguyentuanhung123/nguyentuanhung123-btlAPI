@@ -66,11 +66,12 @@ app.post("/users", (req, res) => {
 })
 
 app.delete("/users/:id", (req, res) => {
-    const userId = req.params.id;
+    //const userId = req.params.id;
+    const {id} = req.params;
 
     const q = "DELETE FROM user WHERE id = ?"
 
-    db.query(q, [userId], (err, data) => {
+    db.query(q, [id], (err, data) => {
         if (err) {
             return res.json(err)
         }

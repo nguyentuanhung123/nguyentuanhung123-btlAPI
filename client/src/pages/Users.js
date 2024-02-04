@@ -15,7 +15,7 @@ const Users = (props) => {
         if (
             window.confirm("Are you sure that you wanted to delete that user ?")
         ) {
-            axios.delete(`http://localhost:8801/users/${id}`)
+            axios.delete('http://localhost:8801/users/'+id)
             toast.success("User has been deleted successfully");
             //setTimeout(() => loadData(), 500);
             window.location.reload()
