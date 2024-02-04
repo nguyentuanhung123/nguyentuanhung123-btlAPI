@@ -22,7 +22,9 @@ const AddEdit = () => {
     const { id } = useParams();
 
     useEffect(() => {
-        axios.get(`http://localhost:8801/users/${id}`)
+        // axios.get(`http://localhost:8801/users/${id}`)
+        //     .then((response) => setState({ ...response.data[0] }))
+        axios.get('http://localhost:8801/users/'+id)
             .then((response) => setState({ ...response.data[0] }))
     }, [id])
 
@@ -48,14 +50,14 @@ const AddEdit = () => {
             toast.error("Address is required");
         }
         else {
+            let user = {
+                name: name,
+                email: email,
+                phone: phone,
+                address: address
+            }
             if (!id) {
-                let user = {
-                    name: name,
-                    email: email,
-                    phone: phone,
-                    address: address
-                }
-                axios.post("http://localhost:8801/users/post", user)
+                axios.post("http://localhost:8801/users", user)
                     .then(() => {
                         setState({ name: "", email: "", phone: "", address: "" })
                     })
@@ -64,13 +66,10 @@ const AddEdit = () => {
                 setTimeout(() => navigate("/"), 500)
             }
             else {
-                let user = {
-                    name: name,
-                    email: email,
-                    phone: phone,
-                    address: address
-                }
-                axios.put(`http://localhost:8801/users/${id}`, user)
+                axios.put(`http://localhost:8801/users`, {
+                    id,
+                    ...user
+                })
                     .then(() => {
                         setState({ name: "", email: "", phone: "", address: "" })
                     })
@@ -124,7 +123,7 @@ const AddEdit = () => {
                     value={address || ""}
                     onChange={(e) => handleInputChange(e)}
                 />
-                <input type="submit" value="Save"></input>
+                <input type="submit" value={id ? "Update" : "Save"}></input>
                 <Link to="/">
                     <input type="button" value="Go Back" />
                 </Link>

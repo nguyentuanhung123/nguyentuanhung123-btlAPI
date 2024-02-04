@@ -11,7 +11,7 @@ const db = mysql.createConnection({
     database: "contact"
 })
 
-//If there is a auth problem
+//If there is a auth problems
 
 app.use(express.json());
 app.use(cors())
@@ -48,7 +48,7 @@ app.get("/users", (req, res) => {
 //     })
 // })
 
-app.post("/users/post", (req, res) => {
+app.post("/users", (req, res) => {
     const q = "INSERT INTO user (`name`,`email`,`phone`,`address`) VALUES (?)"
     const values = [
         req.body.name,
@@ -79,11 +79,18 @@ app.delete("/users/:id", (req, res) => {
 })
 
 app.get("/users/:id", (req, res) => {
-    const userId = req.params.id;
+    //const userId = req.params.id;
+    const {id} = req.params;
 
     const q = "SELECT * FROM user where id = ?";
 
-    db.query(q, [userId], (err, data) => {
+    // db.query(q, [userId], (err, data) => {
+    //     if (err) {
+    //         return res.json(err)
+    //     }
+    //     return res.json(data)
+    // })
+    db.query(q, [id], (err, data) => {
         if (err) {
             return res.json(err)
         }
@@ -91,19 +98,27 @@ app.get("/users/:id", (req, res) => {
     })
 })
 
-app.put("/users/:id", (req, res) => {
-    const userId = req.params.id;
+app.put("/users", (req, res) => {
+    //const userId = req.params.id;
 
+    //Phải để đúng thứ tự theo q
     const values = [
         req.body.name,
         req.body.email,
         req.body.phone,
         req.body.address,
+        req.body.id
     ]
 
     const q = "UPDATE user SET `name` = ? , `email` = ?, `phone` = ? , `address` = ? WHERE id = ?";
 
-    db.query(q, [...values, userId], (err, data) => {
+    // db.query(q, [...values, userId], (err, data) => {
+    //     if (err) {
+    //         return res.json(err)
+    //     }
+    //     return res.json("User has been update successfully")
+    // })
+    db.query(q, [...values], (err, data) => {
         if (err) {
             return res.json(err)
         }

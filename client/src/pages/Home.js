@@ -14,17 +14,7 @@ const Home = () => {
     const firstIndex = lastIndex - recordsPerPage;
     const records = users.slice(firstIndex, lastIndex);
     const npage = Math.ceil(users.length / recordsPerPage);
-    const numbers = [...Array(npage + 1).keys()].slice(1)
-
-
-    // const loadData = async () => {
-    //     const response = await axios.get("http://localhost:8801/users");
-    //     setUsers(response.data);
-    // }
-
-    // useEffect(() => {
-    //     loadData();
-    // }, []);
+    const numbers = [...Array(npage + 1).keys()].slice(1);
 
     return (
         <div style={{ marginTop: "150px" }}>
